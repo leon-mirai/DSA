@@ -1,39 +1,32 @@
-class Node:
-    def __init__(self, data):
-        self.data = data
-        self.next = None
 
-class LinkedList:
-    def __init__(self):
-        self.head = None
-        self.tail = self.head
-        self.length = 0
-    
-    def append(self, item):
-        new_node = Node(item)
-        
-        if (self.head is None):
-            self.head = new_node
-            self.tail = new_node
-            self.length = 1
-        else:
-            self.tail.next = new_node
-            self.tail = new_node
-        self.length += 1
-        
+def bubbleSort(arr):
+    for i in range(len(arr)):
+        for j in range(0, len(arr) - 1):
+            if arr[j] >= arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                
+def selectionSort(arr):
+    for i in range(len(arr)):
+        min_pos = i
+        for j in range(i + 1, len(arr)):
+            if (arr[j] < arr[min_pos]):
+                min_pos = j
+        arr[min_pos], arr[i] = arr[i], arr[min_pos]
 
-myLL = LinkedList()
-myLL.append(5)
-print(myLL)
+def insertionSort(arr):
+    i = 1
+    end_of_sorted = arr[0]
+    length = len(arr)
+    while i < length:
+        if arr[i] < end_of_sorted:
+            x = arr.pop(i)
+            for j in range(0, i):
+                if x < arr[j]:
+                    arr.insert(j, x)
+                    break
+        end_of_sorted = arr[i]
+        i += 1
 
-
-    # def append(self):
-        
-    # def prepend(self):
-        
-    # def insert(self):
-        
-    # def remove(self):
-        
-    # def print_linked_list(self):
-        
+array = [3, 1, 4, 1, 5, 9]
+insertionSort(array)
+print(array)
