@@ -11,8 +11,7 @@ def merge_sort(array):
         mid = len(array)//2
         left_array = array[:mid]
         right_array = array[mid:]
-        print(f'Left : {left_array}')
-        print(f'Right : {right_array}')
+        
         return merge(merge_sort(left_array),merge_sort(right_array))
 
 
@@ -31,7 +30,7 @@ def merge(left, right):
         else:
             sorted_array.append(right[right_index])
             right_index += 1
-    print(sorted_array + left[left_index:] + right[right_index:])
+    
     return sorted_array + left[left_index:] + right[right_index:]
 
 
