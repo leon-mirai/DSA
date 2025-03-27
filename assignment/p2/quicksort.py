@@ -9,33 +9,27 @@ if right > left:
     swap leftItem with pivot
 """
 
-def quick_sort(arr):
-    less = []
-    pivot_lst = []
-    more = []
-    length = len(arr)
-    count = 0
-    if length <= 1:
-        return arr
-    else:
-        for i in arr:
-            my_rand = random.randint(count, length - 1)
-            count += 1
-            pivot = arr[my_rand]
-            if i < pivot:
-                less.append(i)
-            elif i > pivot:
-                more.append(i)
-            else:
-                pivot_lst.append(i)
-        less = quick_sort(less)
-        more = quick_sort(more)
-        print(less + pivot_lst + more)
-        return less + pivot_lst + more
-            
+def quick_sort(arr, left, right):
+    if left < right:
+        idx = partition(arr, left, right)
+        
+        quick_sort(arr, left, idx - 1)
+        quick_sort(arr, idx + 1, right)
     
-
-my_array = [8, 2, 1, 3]
-quick_sort(my_array)
-
+    return arr
+    
+def partition(arr, left, right):
+    pivot = arr[right]
+    idx = left
+    
+    for i in range(left, right):
+        if arr[i] < pivot:
+            arr[i], arr[idx] = arr[idx], arr[i]
+            idx += 1
+    arr[right], arr[idx] = arr[idx], arr[right]
+    return idx
+    
+my_array = [8, 7, 6, 4, 5]
+quick_sort(my_array, 0, len(my_array) - 1)
+print(my_array)
 
