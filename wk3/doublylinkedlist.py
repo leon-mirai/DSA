@@ -89,6 +89,8 @@ class LinkedList:
         
 linked_list = LinkedList()
 linked_list.append(10)
-linked_list.append(5)
+linked_list.append(3)
+linked_list.print_list()
+linked_list.prepend(5)
 
 linked_list.print_list()
