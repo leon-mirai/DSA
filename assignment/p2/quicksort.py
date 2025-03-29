@@ -23,13 +23,15 @@ def partition(arr, left, right):
     idx = left
     
     for i in range(left, right):
+        print(f"i: arr[{i}] = {arr[i]}")
         if arr[i] < pivot:
+            print(f"idx: arr[{idx}] = {arr[idx]}")
             arr[i], arr[idx] = arr[idx], arr[i]
             idx += 1
     arr[right], arr[idx] = arr[idx], arr[right]
     return idx
     
-my_array = [8, 7, 6, 4, 5]
+my_array = [8, 3, 1, 7, 0, 10, 2, 5, 4, 9, 6]
 quick_sort(my_array, 0, len(my_array) - 1)
 print(my_array)
 
