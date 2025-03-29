@@ -10,19 +10,52 @@ class BinarySearchTree:
     
     def insert(self, value):
         new_node = Node(value)
-        self.root = new_node
-        return
+        if self.root is None:
+            self.root = new_node
+        else:
+            curr_node = self.root
+            while True:
+                if value < curr_node.data:
+                    #left
+                    if not curr_node.left:
+                        curr_node.left = new_node
+                        return
+                    curr_node = curr_node.left
+                else:
+                    if not curr_node.right:
+                        curr_node.right = new_node
+                        return
+                    curr_node = curr_node.right
+        
+
     
-    def lookup(self, value):
-        return
-    
+    def lookup(self,data):
+        curr_node = self.root
+        while True:
+            if curr_node == None:
+                return False
+            if curr_node.data == data:
+                return True
+            elif data < curr_node.data:
+                curr_node = curr_node.left
+            else:
+                curr_node = curr_node.right
+                
     def remove(self, value):
-        return
+        curr_node = self.root
+        while True:
+            if curr_node == None:
+                return 
+            if curr_node.data == value:
+                return
+            elif 
+            
+
     
     def traverse(self, node):
         if node is not None:
             self.traverse(node.left)
-            print(node.data, end=" ")
+            print(f"[{node.data}]", end=" ")
             self.traverse(node.right)
     
     def print_tree(self):
@@ -32,30 +65,12 @@ class BinarySearchTree:
 
 tree = BinarySearchTree()
 tree.insert(9)
-tree.print_tree
-# tree.insert(4)
-# tree.insert(6)
-# tree.insert(20)
-# tree.insert(170)
-# tree.insert(15)
-# tree.insert(1)
-
-# def r_search(node, key):
-#     if node == None:
-#         return None
-#     if key == node.data:
-#         return node
-#     elif key < node.data:
-#         return r_search(node.lchild, key)
-#     else:
-#         return r_search(node.rchild, key)
-    
-# def search(node, key):
-#     while (node != None):
-#         if key == node.data:
-#             return node
-#         elif key < node.data:
-#             node = node.lchild
-#         else:
-#             node = node.rchild
-            
+tree.insert(4)
+tree.insert(6)
+tree.insert(20)
+tree.insert(30)
+tree.insert(15)
+tree.insert(1)
+print(tree.lookup(1))
+print(tree.lookup(17))
+tree.print_tree()
