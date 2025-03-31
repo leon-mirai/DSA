@@ -17,50 +17,44 @@ LR rotate
 RL rotate
 """
         
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.height = 1
+        self.left = None
+        self.right = None
+
+class AVLTree:
+    def __init__(self):
+        self.root = None
+    
+    def get_height(self, node):
+        if not node:
+            return 0
+        return node.height
+    
+    def get_balance(self, node):
+        if not node:
+            return 0
+        return self.get_height(node.left) - self.get_height(node.right)
+    
+    def insert(self, root, value):
+        if not root:
+            return Node(value)
+        elif value < self.root:
+            root.left = self.insert(root.left, value)
+        else:
+            root.right = self.insert(root.right, value)
         
+        root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
+        balance = self.get_balance(root)
 
+        if balance > 1 and value < root.left.value:
+            return 
+        if balance < -1 and value > root.right.value:
+            return
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# class Node:
-#     def __init__(self, value):
-#         self.value = value
-#         self.left = None
-#         self.right = None
-#         self.height = 1
-
-
-# class AVLTree:
-#     def __init__(self):
-#         self.root = None
-
-#     def height(self, node):
-#         if not node:
-#             return 0
-#         return node.height
-
-#     def balance(self, node):
-#         if not node:
-#             return 0
-#         return self.height(node.left) - self.height(node.right)
+    
 
 #     def insert(self, root, value):
 #         if not root:
