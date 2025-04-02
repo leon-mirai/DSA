@@ -20,15 +20,15 @@ class AVLTree:
         return self.get_height(node.left) - self.get_height(node.right)
     
     def insert_value(self, value):
-        self.root = self.insert(self.root, value)
+        self.root = self.__insert(self.root, value)
     
-    def insert(self, root, value):
+    def __insert(self, root, value):
         if root is None:
             return AVLNode(value)
         elif value < root.value:
-            root.left = self.insert(root.left, value)
+            root.left = self.__insert(root.left, value)
         else:
-            root.right = self.insert(root.right, value)
+            root.right = self.__insert(root.right, value)
         
         root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
         balance_factor = self.get_balance_factor(root)
@@ -74,17 +74,17 @@ class AVLTree:
         return new_root
 
     def remove(self, value):
-        self.root = self._remove(self.root, value)
+        self.root = self.__remove(self.root, value)
 
-    def _remove(self, node, value):
+    def __remove(self, node, value):
         if node is None:
             return node
         
         # Traverse left or right
         if value < node.value:
-            node.left = self._remove(node.left, value)
+            node.left = self.__remove(node.left, value)
         elif value > node.value:
-            node.right = self._remove(node.right, value)
+            node.right = self.__remove(node.right, value)
         else:
             # Node with one child or no child
             if node.left is None:
@@ -92,9 +92,9 @@ class AVLTree:
             elif node.right is None:
                 return node.left
             # Node with two children
-            temp = self._min_value_node(node.right) # right-left in-order successor
+            temp = self.__min_value_node(node.right) # right-left in-order successor
             node.value = temp.value
-            node.right = self._remove(node.right, temp.value)
+            node.right = self.__remove(node.right, temp.value)
 
         if node is None:
             return node
@@ -122,24 +122,12 @@ class AVLTree:
 
         return node
 
-    def _min_value_node(self, node):
+    def __min_value_node(self, node):
         current = node
         while current.left is not None:
             current = current.left
         return current
     
-    # def search(self, value):
-    #     return self._search(self.root, value)
-
-    # def _search(self, node, value):
-    #     if node is None:
-    #         return print("Hi")
-    #     if value == node.value:
-    #         return node  
-    #     elif value < node.value:
-    #         return self._search(node.left, value)  # search left subtree
-    #     else:
-    #         return self._search(node.right, value)  # search right subtree
 
     def search(self, target):
         current = self.root
@@ -173,11 +161,36 @@ class AVLTree:
         if node.left:
             self.print_tree(node.left, prefix + ("    " if is_left else "│   "), True)
 
+class HashMap:
+    def __init__(self):
+        self.avl_tree = AVLTree()
+        self.hash_map = dict() 
+           
+    def add_item(self, weight):
+        self.avl_tree.insert_value(weight)
+        self.hash_map[weight] = self.hash_map.get(weight, 0) + 1
+        
+    def remove_item(self, weight):
+        if weight in self.hash_map:
+            self.hash_map[weight] -= 1
+            if self.hash_map[weight] == 0:
+                del self.hash_map[weight]
+            self.avl_tree.remove(weight)
+            return True
+        return False
+            
+    def search_item(self, target):
+        if target in self.hash_map:
+            print("Exact match:", target)
+            return target
+        
+        closest = self.avl_tree.search(target)
+        print("Closest match:", closest)
+        return closest
     
-tree = AVLTree()
-array = [50, 30, 70, 60, 80, 55]
-for i in array:
-    tree.insert_value(i)
-
-tree.print_tree()
-tree.search(30)
+warehouse = HashMap()
+warehouse.add_item(4)
+warehouse.add_item(10)
+warehouse.add_item(17)
+warehouse.add_item(22)
+warehouse.search_item(22)
