@@ -6,6 +6,6 @@ def selection_sort(array):
                 min = j
         array[i], array[min] = array[min], array[i] # swap
 
-my_arr = [3, 6, 2, 1, 9, -3, 6]
-selection_sort(my_arr)
-print(my_arr)
+# my_arr = [3, 6, 2, 1, 9, -3, 6]
+# selection_sort(my_arr)
+# print(my_arr)

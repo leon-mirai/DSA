@@ -14,6 +14,6 @@ def insertion_sort(array):
         i += 1 # increment i
 
 
-my_arr = [3, 6, 2, 1, 9, -3, 6]
-insertion_sort(my_arr)
-print(my_arr)
+# my_arr = [3, 6, 2, 1, 9, -3, 6]
+# insertion_sort(my_arr)
+# print(my_arr)

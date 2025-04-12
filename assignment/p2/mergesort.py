@@ -15,15 +15,12 @@ def merge(left, right):
     right_index = 0
     my_sorted = []
 
-    while (left_index < left_len and right_index < right_len):
-        if (left[left_index] < right[right_index]):
+    while left_index < left_len and right_index < right_len:
+        if left[left_index] < right[right_index]:
             my_sorted.append(left[left_index])
             left_index += 1
         else:
             my_sorted.append(right[right_index])
             right_index += 1
-        print(my_sorted + left[left_index:] + right[right_index:])
-        return my_sorted + left[left_index:] + right[right_index:]
-    
-arr = [3, 6, 1, 9, 2]
-merge_sort(arr)
+
+    return my_sorted + left[left_index:] + right[right_index:]

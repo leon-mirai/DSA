@@ -1,22 +1,3 @@
-"""
-heap: ordered binary tree
-max heap: parent > child
-Make tree from array
-build-max-heap: create max heap from unsorted array
-- swap largest parent with smallest child
-- remove largest parent
-- now we have a tree again
-heapify: similar to build-max-heap, but assumes part of array is already sorted
-- call heapify to turn tree into heap
-- the smallest child that is at the top now floats down to the bottom 
-"""
-
-
-
-
-
-
-
 def max_heapify(A, heap_size, i):
     # Calculate left and right child indices
     left = 2 * i + 1 # line 15
@@ -42,13 +23,13 @@ def build_heap(A):
 def heapsort(A):
     heap_size = len(A)  # Get the size of the array
     build_heap(A) # line 33 - Build the max heap from the array
-    print(A) # Show the max heap structure
+    #print(A) # Show the max heap structure
     # Perform the heapsort by repeatedly removing the largest element
     for i in range(heap_size - 1, 0, -1):
         A[0], A[i] = A[i], A[0]  # Swap the root (largest) with the last element
         heap_size -= 1  # Reduce the heap size
         max_heapify(A, heap_size, 0)  # Restore the max heap property
 
-A = [8, 3, 1, 7, 0, 10, 2, 5, 4, 9, 6]
-heapsort(A)
-print(A) 
+# A = [8, 3, 1, 7, 0, 10, 2, 5, 4, 9, 6]
+# heapsort(A)
+# print(A) 

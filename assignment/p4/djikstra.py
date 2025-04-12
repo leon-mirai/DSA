@@ -19,6 +19,7 @@ class NavGraph:
             target: Target node
             metric: Optimization criteria ("distance", "toll", or "balanced")
             alpha: Weight for distance in balanced metric (0-1)
+                   x -> 1 (distance), x -> 0 (toll)
         
         Returns:
             tuple: (path, total_cost)

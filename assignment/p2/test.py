@@ -1,84 +1,71 @@
-def bubble_sort(A):
-    for i in range(len(A)):
-        for j in range(len(A) - 1 - i):
-            if A[j] > A[j + 1]:
-                swap(A, j, j + 1)
+import random
+import time
+from heapsort import heapsort
+from insertionsort import insertion_sort
+from mergesort import merge_sort
+from quicksort import quick_sort
+from selectionsort import selection_sort
+import sys
 
-def selection_sort(A):
-    n = len(A)
-    for i in range(n):
-        min = i
-        for j in range(i + 1, n):
-            if A[j] < A[min]:
-                min = j
-        swap(A, i, min)
+sys.setrecursionlimit(100000)
 
-def insertion_sort(A):
-    n = len(A)
-    end = A[0]
-    idx = 1
-    while idx < n:
-        if A[idx] < end:
-            x = A.pop(idx)
-            for j in range(0, idx):
-                if x < A[j]:
-                    A.insert(j, x)
-                    break
-        end = A[idx]
-        idx += 1
-def swap(A, item1, item2):
-    A[item1], A[item2] = A[item2], A[item1]
+def gen_extreme_list(size, small_range=(0, 100), outlier_range=(10000, 20000), outlier_ratio=0.01):
+    num_outliers = int(size * outlier_ratio)
+    num_small_values = size - num_outliers
+    small_values = [random.randint(*small_range) for _ in range(num_small_values)]
+    outlier_values = [random.randint(*outlier_range) for _ in range(num_outliers)]
+    combined = small_values + outlier_values
+    random.shuffle(combined)
+    return combined
+
+def quick_sort_wrapper(arr):
+    return quick_sort(arr, 0, len(arr) - 1)  # Wrap quick_sort with the correct arguments
+
+def test_and_time(algorithm_name, sort_fn, description, data):
+    arr = data.copy()
+    start = time.time()
+    result = sort_fn(arr)
+    end = time.time()
+
+    # If function returns a new sorted list
+    if result is not None:
+        arr = result
+
+    # Ensure the array is sorted correctly
+    assert arr == sorted(data), f"{algorithm_name} failed to sort properly!"
     
-def quick_sort(A, left, right):
-    if left < right:
-        idx = partition(A, left, right)
-        
-        quick_sort(A, left, idx - 1)
-        quick_sort(A, idx + 1, right)
+    # Formatting output for clarity
+    print(f"\033[1m{algorithm_name}\033[0m on \033[4m{description}\033[0m: "
+          f"\033[92m{end - start:.4f} sec\033[0m")  # Green color for time
+
+def test_performance():
+    sizes = [1000, 5000, 10000, 20000, 30000, 40000, 50000, 100000, 500000]  # Sizes for testing
+    algorithms = [
+        ("HeapSort", heapsort),
+        ("InsertionSort", insertion_sort),
+        ("MergeSort", merge_sort),
+        ("QuickSort", quick_sort),  # Use the wrapper for quick_sort
+        ("SelectionSort", selection_sort)
+    ]
     
-def partition(A, left, right):
-    pivot = A[right]
-    max_idx = left
-
-    for i in range(left, right):
-        if A[i] < pivot:
-            swap(A, i, max_idx)
-            max_idx += 1
+    # Header for the overall test
+    print("\033[1m\033[4mPerformance Testing: Sorting Algorithms\033[0m\n")
     
-        
-def heap_sort(A):
-    n = len(A)
-    if n <= 1:
-        return A
-    build_heap(A)
-    
-    for i in range(n - 1, 0, -1):
-        swap(A, 0, i)
-        n -= 1
-        heapify(A, n, 0)
+    for size in sizes:
+        print(f"\n\033[1m=== Testing with size: {size} ===\033[0m")
+        test_cases = [
+            ("Random List", [random.randint(0, 1000) for _ in range(size)]),
+            ("Reverse Sorted List", list(range(size))[::-1]),
+            ("Extreme Value List", gen_extreme_list(size)),
+            ("Many Duplicates", [random.choice([5, 10, 20, 50]) for _ in range(size)])
+        ]
 
-def build_heap(A):
-    n = len(A)
-    for i in range(n // 2 - 1, -1, -1):
-        heapify(A, n, i)
-    
+        for description, data in test_cases:
+            print(f"\n\033[1mTesting case: {description} ({size})\033[0m")
+            print("-" * 50)  # Separator line
+            for algo_name, algo_fn in algorithms:
+                test_and_time(algo_name, algo_fn, description, data)
+            print("-" * 50)  # Separator line for each test case
 
-def heapify(A, heap_size, idx):
-    left = 2 * idx + 1
-    right = 2 * idx + 2
-    max_idx = idx
-    
-    if left < heap_size and A[left] > A[max_idx]:
-        max_idx = left
-    if right < heap_size and A[right] > A[max_idx]:
-        max_idx = right
-    if max_idx != idx:
-        swap(A, max_idx, idx)
-        heapify(A, heap_size, max_idx)
-    return idx
-
-A = [8, 3, 1, 7, 0, 10, 2, 5, 4, 9, 6]
-
-heap_sort(A)
-print(A)
-
+if __name__ == "__main__":
+    test_performance()
